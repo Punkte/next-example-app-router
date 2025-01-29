@@ -1,6 +1,6 @@
 'use server'
 
-import { TodoFormState } from '@/components/todos/NewTodoForm'
+import type { TodoFormState } from '@/components/todos/NewTodoForm'
 import db from '@/frameworks/db'
 import { revalidatePath } from 'next/cache'
 
@@ -19,4 +19,9 @@ export const createTodo = async (prevState: TodoFormState, formData: FormData) =
 
   revalidatePath('/todos')
   return prevState
+}
+
+export const getTodos = async (params: Parameters<typeof db.todo.findMany>[0]) => {
+  const todos = await db.todo.findMany(params)
+  return todos
 }
